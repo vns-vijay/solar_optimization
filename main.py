@@ -88,7 +88,7 @@ class ORModel:
 
 
 
-df = pd.read_csv('/Users/vijaysharma/Downloads/argus_assn/input_data/Argus_Media_Optim_Test_Data.csv')
+df = pd.read_csv('input_data/Argus_Media_Optim_Test_Data.csv')
 df['tariff_p_kwh'] = df['tariff_p_kwh']/100
 df['timestamp'] = pd.to_datetime(df['timestamp'], format='%d/%m/%Y %H:%M')
 df['time_part'] = df['timestamp'].dt.strftime('%H%M')
