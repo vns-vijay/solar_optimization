@@ -46,7 +46,7 @@ class ORModel:
 
     def charging_const(self):
         for t in self.timestamp:
-            self.prob += self.i[t-1] + self.delta*(self.x_c[t]+self.x_d[t]) - self.delta*self.z[t] == self.i[t]
+            self.prob += self.i[t-1] + self.delta*(self.x_c[t]+self.s_c[t]) - self.delta*self.z[t] == self.i[t]
 
     def discharging_limit(self):
         for t in self.timestamp:
