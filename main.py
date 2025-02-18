@@ -16,9 +16,9 @@ class ORModel:
         self.c_t = self.data_dict['avg_tarrif_kwh']
         self.demand = self.data_dict['avg_demand_w']
         self.solar_supply = self.data_dict['avg_solar_w']
+        self.dis_limit = self.data_dict['bat_dis_limit']
+        self.charg_limit = self.data_dict['bat_charg_limit']
         self.delta = 0.5
-        self.dis_limit = 500
-        self.charg_limit = 500
 
 
     def create_variables(self):
@@ -62,7 +62,7 @@ class ORModel:
 
     def solar_supply_const(self):
         for t in self.timestamp:
-            self.prob += self.s_c[t] + self.s_d[t] == self.solar_supply[t]
+            self.prob += self.s_c[t] + self.s_d[t] <= self.solar_supply[t]*self.y_s
 
     def battery_capacity_const(self):
         for t in self.timestamp:
@@ -85,9 +85,6 @@ class ORModel:
         print("=========")
 
 
-
-
-
 df = pd.read_csv('input_data/Argus_Media_Optim_Test_Data.csv')
 df['tariff_p_kwh'] = df['tariff_p_kwh']/100
 df['timestamp'] = pd.to_datetime(df['timestamp'], format='%d/%m/%Y %H:%M')
@@ -105,6 +102,8 @@ dct = aggr_df.to_dict(orient='dict')
 params = {
     'battery_cost':0.5,   #Wh
     'pannel_cost':300,   # Euro
+    'bat_dis_limit':500, #W
+    'bat_charg_limit':500, #W
 }
 params.update(dct)
 print(params)
